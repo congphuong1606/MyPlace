@@ -34,10 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
             mUnbinder.unbind();
         }
         super.onDestroy();
-
     }
-
-
     protected abstract int getContentLayoutID();
 
     protected abstract void initData();
@@ -45,8 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity  {
     protected abstract void initView();
 
     protected abstract void injectDependence();
-
-
 
 
     public void onStartActivity(Class aClass) {

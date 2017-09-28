@@ -9,4 +9,5 @@ public class Constants {
     public static final int MY_PERMISSIONS_REQUEST_FHONE_CALL=2;
     public static final int REQUEST_CHOOSE_PHOTO=1;
     public static final int REQUEST_TAKE_PHOTO=2;
+    public static final String BASE_URL = "https://sheets.googleapis.com/v4/spreadsheets/";
 }
