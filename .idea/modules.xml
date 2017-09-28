@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MyPlace.iml" filepath="$PROJECT_DIR$/MyPlace.iml" />
+      <module fileurl="file://E:\andorid-me\my-place\MyPlace.iml" filepath="E:\andorid-me\my-place\MyPlace.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-place.iml" filepath="$PROJECT_DIR$/my-place.iml" />
     </modules>
   </component>
 </project>
