@@ -2,11 +2,9 @@ package myplace.phuongcong.vn.myplace.ui.register;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import myplace.phuongcong.vn.myplace.common.Constants;
-import myplace.phuongcong.vn.myplace.data.User;
-import myplace.phuongcong.vn.myplace.data.Users;
 import myplace.phuongcong.vn.myplace.network.ApiService;
 import myplace.phuongcong.vn.myplace.network.ApiUtils;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Ominext on 10/2/2017.
@@ -21,17 +19,20 @@ public class RegisPresenter {
         this.mApiService = ApiUtils.getIapiService();
     }
 
-    public void creatUser(User newAcc) {
-        mApiService.getListUser(Constants.SPREAD_SHEET_ID,newAcc).subscribeOn(Schedulers.io())
+    public void creatUser(String accName, String accPass, String accNumber) {
+        mApiService.creatUser("insert",accName,accPass,"",accNumber).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccess, this::onFail);
     }
 
+    private void onSuccess(ResponseBody responseBody) {
+        mRegisView.onSiginSuccess();
+
+    }
+
     private void onFail(Throwable throwable) {
-        String.valueOf(throwable);
+       mRegisView.onfail( String.valueOf(throwable));
     }
 
-    private void onSuccess(Users users) {
 
-    }
 }

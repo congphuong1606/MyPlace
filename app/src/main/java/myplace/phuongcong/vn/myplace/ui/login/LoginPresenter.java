@@ -3,7 +3,7 @@ package myplace.phuongcong.vn.myplace.ui.login;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import myplace.phuongcong.vn.myplace.common.Constants;
-import myplace.phuongcong.vn.myplace.data.Users;
+import myplace.phuongcong.vn.myplace.data.User;
 import myplace.phuongcong.vn.myplace.network.ApiService;
 import myplace.phuongcong.vn.myplace.network.ApiUtils;
 
@@ -20,19 +20,20 @@ public class LoginPresenter {
         this.mLoginView = mLoginView;
     }
 
-    public void onLoadListUser() {
-        String spreadsheetId = Constants.SPREAD_SHEET_ID;
-        String range =Constants.SHEET_USER ;
-        mApiService.getListUser(spreadsheetId, range).subscribeOn(Schedulers.io())
+    public void onLogin(String accName, String accPass) {
+        mApiService.login("login", accName,accPass).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccess, this::onFail);
     }
 
-    private void onFail(Throwable throwable) {
-        mLoginView.onRequestFail(String.valueOf(throwable));
+    private void onSuccess(User user) {
+      User user1=user;
+      mLoginView.onSiginSuccess();
     }
+    private void onFail(Throwable throwable) {
+        if(String.valueOf(throwable).equals("com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING at line 1 column 1 path $")){
+            mLoginView.onRequestFail(Constants.LOGIN_FAIL);
+        }
 
-    private void onSuccess(Users users) {
-        mLoginView.onLoadUsersSuccess(users.getUsers());
     }
 }

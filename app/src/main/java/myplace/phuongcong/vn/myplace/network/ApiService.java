@@ -1,11 +1,10 @@
 package myplace.phuongcong.vn.myplace.network;
 
 import io.reactivex.Observable;
+import myplace.phuongcong.vn.myplace.common.Constants;
 import myplace.phuongcong.vn.myplace.data.User;
-import myplace.phuongcong.vn.myplace.data.Users;
-import retrofit2.http.Body;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -14,9 +13,11 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @GET("exec")
-    Observable<Users> getListUser(@Query("id") String spreadsheetId, @Query("sheet") User sheet) ;
+    @GET(Constants.API_USER+"/exec")
+    Observable<User> login(@Query("action") String read, @Query("name") String name,@Query("pass") String pass);
 
-    @POST("exec")
-    void creatUser(@Query("id") String spreadsheetId,@Body User newAcc);
+    @GET(Constants.API_USER+"/exec")
+    Observable<ResponseBody> creatUser(@Query("action") String insert, @Query("name") String accName,
+                                       @Query("pass") String accPass, @Query("email") String s,
+                                       @Query("number") String accNumber);
 }

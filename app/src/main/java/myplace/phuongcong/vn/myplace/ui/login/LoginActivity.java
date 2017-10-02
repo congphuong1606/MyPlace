@@ -1,18 +1,17 @@
 package myplace.phuongcong.vn.myplace.ui.login;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import myplace.phuongcong.vn.myplace.R;
 import myplace.phuongcong.vn.myplace.common.Constants;
-import myplace.phuongcong.vn.myplace.data.User;
 import myplace.phuongcong.vn.myplace.ui.MainActivity;
 import myplace.phuongcong.vn.myplace.ui.base.BaseActivity;
 import myplace.phuongcong.vn.myplace.ui.register.RegisActivity;
@@ -20,7 +19,7 @@ import myplace.phuongcong.vn.myplace.ui.sheets.SheetDemoActivity;
 import myplace.phuongcong.vn.myplace.utils.CheckInput;
 
 
-public class LoginActivity extends BaseActivity implements LoginView{
+public class LoginActivity extends BaseActivity implements LoginView {
     @BindView(R.id.edt_input_acc)
     EditText edtInputAcc;
     @BindView(R.id.edt_input_pass)
@@ -36,7 +35,7 @@ public class LoginActivity extends BaseActivity implements LoginView{
     private LoginPresenter mLoginPresenter;
     private String accName;
     private String accPass;
-
+    private SharedPreferences.Editor editor;
 
     @Override
     protected int getContentLayoutID() {
@@ -46,9 +45,13 @@ public class LoginActivity extends BaseActivity implements LoginView{
 
     @Override
     protected void initData() {
-        mLoginPresenter=new LoginPresenter(this);
+        Intent intent=getIntent();
+        if(!intent.getStringExtra("name").isEmpty()){
+          edtInputAcc.setText(intent.getStringExtra("name"));
+          edtInputPass.setText(intent.getStringExtra("pass"));
+        }
+        mLoginPresenter = new LoginPresenter(this);
     }
-
 
 
     @Override
@@ -75,34 +78,26 @@ public class LoginActivity extends BaseActivity implements LoginView{
     private void login() {
         if (CheckInput.checkInPutLogin(edtInputAcc, edtInputPass, this)) {
             accName = edtInputAcc.getText().toString().trim();
-            accPass  = edtInputPass.getText().toString().trim();
-            mLoginPresenter.onLoadListUser();
+            accPass = edtInputPass.getText().toString().trim();
+            mLoginPresenter.onLogin(accName, accPass);
 
         }
     }
 
     @Override
-    public void onLoadUsersSuccess(ArrayList<User> users) {
-        boolean isLoginSuccess=false;
-        for(User user:users){
-            if(user.getAcount().equals(accName)&user.getPass().equals(accPass)){
-                isLoginSuccess=true;
-            }
-            if(isLoginSuccess){
-                break;
-            }
-        }
-        if(isLoginSuccess){
-            onStartActivity(MainActivity.class);
-            finish();
+    public void onSiginSuccess() {
+        if(rempasswordcheckbox.isChecked()){
+              editor.putString("name",accName)
+                    .putString("pass",accPass).commit();
         }else {
-            Toast.makeText(this, Constants.LOGIN_FAIL,Toast.LENGTH_SHORT).show();
+            editor.clear();
         }
-
+        onStartActivity(MainActivity.class);
+        finish();
     }
 
     @Override
     public void onRequestFail(String s) {
-
+        Toast.makeText(this, Constants.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
     }
 }

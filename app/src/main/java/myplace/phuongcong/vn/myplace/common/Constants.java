@@ -11,7 +11,7 @@ public class Constants {
     public static final int MY_PERMISSIONS_REQUEST_FHONE_CALL = 2;
     public static final int REQUEST_CHOOSE_PHOTO = 1;
     public static final int REQUEST_TAKE_PHOTO = 2;
-    public static final String BASE_URL = "https://script.google.com/macros/s/AKfycbxOLElujQcy1-ZUer1KgEvK16gkTLUqYftApjNCM_IRTL3HSuDk/";
+    public static final String BASE_URL = "https://script.google.com/macros/s/";
     public static final int REQUEST_ACCOUNT_PICKER = 1000;
     public static final int REQUEST_AUTHORIZATION = 1001;
     public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
@@ -24,4 +24,6 @@ public class Constants {
     public static final String SPREAD_SHEET_ID = "1668tcfK7dGLm0QjVzLxhvrkgd4v7KD2lEKLF5ACF9Eg";
     public static final  String SHEET_USER= "Users";
     public static final String LOGIN_FAIL="acc or pass incorect!";
+    public static final String API_USER="AKfycbysamAPkVAjm4V2-1AMhKArk3IB6H6S95WzqWbeJkb8K1hP4W4";
+    public static final String SPF_NAME="user";
 }

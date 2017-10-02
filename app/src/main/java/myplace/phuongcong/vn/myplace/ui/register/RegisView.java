@@ -5,4 +5,6 @@ package myplace.phuongcong.vn.myplace.ui.register;
  */
 
 public interface RegisView {
+    void onSiginSuccess();
+    void onfail(String s);
 }

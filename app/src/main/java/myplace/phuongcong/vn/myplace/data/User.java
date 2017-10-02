@@ -6,13 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class User implements Serializable {
-
-    @SerializedName("user_name")
+    @SerializedName("id")
     @Expose
-    private String userName;
-    @SerializedName("acount")
+    private Long id;
+    @SerializedName("name")
     @Expose
-    private String acount;
+    private String name;
     @SerializedName("email")
     @Expose
     private String email;
@@ -21,7 +20,13 @@ public class User implements Serializable {
     private String pass;
     @SerializedName("number")
     @Expose
-    private String number;
+    private Long number;
+    @SerializedName("timeCreat")
+    @Expose
+    private String timeCreat;
+    @SerializedName("timeUpdate")
+    @Expose
+    private String timeUpdate;
 
     /**
      * No args constructor for use in serialization
@@ -30,37 +35,49 @@ public class User implements Serializable {
     public User() {
     }
 
-    /**
-     *
-     * @param acount
-     * @param email
-     * @param userName
-     * @param number
-     * @param pass
-     */
-    public User(String userName, String acount, String email, String pass, String number) {
-        super();
-        this.userName = userName;
-        this.acount = acount;
+    public User(Long id, String name, String email, String pass, Long number) {
+        this.id = id;
+        this.name = name;
         this.email = email;
         this.pass = pass;
         this.number = number;
     }
 
-    public String getUserName() {
-        return userName;
+    /**
+     *
+     * @param id
+     * @param timeUpdate
+     * @param email
+     * @param name
+     * @param number
+     * @param timeCreat
+     * @param pass
+     */
+    public User(Long id, String name, String email, String pass, Long number, String timeCreat, String timeUpdate) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.pass = pass;
+        this.number = number;
+        this.timeCreat = timeCreat;
+        this.timeUpdate = timeUpdate;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Long getId() {
+        return id;
     }
 
-    public String getAcount() {
-        return acount;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAcount(String acount) {
-        this.acount = acount;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -79,12 +96,28 @@ public class User implements Serializable {
         this.pass = pass;
     }
 
-    public String getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Long number) {
         this.number = number;
+    }
+
+    public String getTimeCreat() {
+        return timeCreat;
+    }
+
+    public void setTimeCreat(String timeCreat) {
+        this.timeCreat = timeCreat;
+    }
+
+    public String getTimeUpdate() {
+        return timeUpdate;
+    }
+
+    public void setTimeUpdate(String timeUpdate) {
+        this.timeUpdate = timeUpdate;
     }
 
 }
