@@ -23,7 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
         setContentView(getContentLayoutID());
         mUnbinder = ButterKnife.bind(this);
         injectDependence();
-        initView();
+
         initData();
     }
 
@@ -39,7 +39,6 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
     protected abstract void initData();
 
-    protected abstract void initView();
 
     protected abstract void injectDependence();
 

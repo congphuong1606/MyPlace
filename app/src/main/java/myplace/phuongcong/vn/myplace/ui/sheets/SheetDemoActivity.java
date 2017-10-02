@@ -42,7 +42,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class SheetActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class SheetDemoActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private Button mCallApiButton;
@@ -55,7 +55,7 @@ public class SheetActivity extends AppCompatActivity implements EasyPermissions.
 
     private static final String BUTTON_TEXT = "Call Google Sheets API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
+    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
 
     /**
      * Create the main activity.
@@ -144,10 +144,10 @@ public class SheetActivity extends AppCompatActivity implements EasyPermissions.
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 this, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = getPreferences(Context.MODE_PRIVATE)
+            String acc = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
-            if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
+            if (acc != null) {
+                mCredential.setSelectedAccountName(acc);
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
@@ -303,7 +303,7 @@ public class SheetActivity extends AppCompatActivity implements EasyPermissions.
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                SheetActivity.this,
+                SheetDemoActivity.this,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
@@ -396,7 +396,7 @@ public class SheetActivity extends AppCompatActivity implements EasyPermissions.
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            SheetActivity.REQUEST_AUTHORIZATION);
+                            SheetDemoActivity.REQUEST_AUTHORIZATION);
                 } else {
                     mOutputText.setText("The following error occurred:\n"
                             + mLastError.getMessage());

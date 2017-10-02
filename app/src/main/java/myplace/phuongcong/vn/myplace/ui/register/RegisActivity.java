@@ -7,9 +7,11 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.OnClick;
 import myplace.phuongcong.vn.myplace.R;
+import myplace.phuongcong.vn.myplace.data.User;
 import myplace.phuongcong.vn.myplace.ui.base.BaseActivity;
+import myplace.phuongcong.vn.myplace.utils.CheckInput;
 
-public class RegisActivity extends BaseActivity {
+public class RegisActivity extends BaseActivity implements RegisView {
     @BindView(R.id.edt_name_regis)
     EditText edtNameRegis;
     @BindView(R.id.edt_pass_regis)
@@ -20,6 +22,8 @@ public class RegisActivity extends BaseActivity {
     Button btnSigup;
     @BindView(R.id.btn_back_login)
     Button btnBackLogin;
+    private User newAcc;
+    private RegisPresenter mRegisPresenter;
 
 
     @Override
@@ -29,13 +33,10 @@ public class RegisActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+           mRegisPresenter=new RegisPresenter(this);
     }
 
-    @Override
-    protected void initView() {
 
-    }
 
     @Override
     protected void injectDependence() {
@@ -47,10 +48,22 @@ public class RegisActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_sigup:
+                regis();
                 break;
             case R.id.btn_back_login:
                 finish();
                 break;
+        }
+    }
+
+    private void regis() {
+        if (CheckInput.checkInPutRegis(edtNameRegis,edtNumberRegis, edtPassRegis, this)) {
+            String accName = edtNameRegis.getText().toString().trim();
+            String accPass = edtPassRegis.getText().toString().trim();
+            String accNumber = edtNumberRegis.getText().toString().trim();
+            newAcc = new User(accName,accName,accName,accPass,accNumber);
+            mRegisPresenter.creatUser(newAcc);
+
         }
     }
 }

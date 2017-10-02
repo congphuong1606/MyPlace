@@ -1,27 +1,26 @@
 package myplace.phuongcong.vn.myplace.ui.login;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import myplace.phuongcong.vn.myplace.R;
-import myplace.phuongcong.vn.myplace.network.ApiService;
-import myplace.phuongcong.vn.myplace.network.ApiUtils;
+import myplace.phuongcong.vn.myplace.common.Constants;
+import myplace.phuongcong.vn.myplace.data.User;
+import myplace.phuongcong.vn.myplace.ui.MainActivity;
 import myplace.phuongcong.vn.myplace.ui.base.BaseActivity;
 import myplace.phuongcong.vn.myplace.ui.register.RegisActivity;
-import myplace.phuongcong.vn.myplace.ui.sheets.SheetActivity;
+import myplace.phuongcong.vn.myplace.ui.sheets.SheetDemoActivity;
+import myplace.phuongcong.vn.myplace.utils.CheckInput;
 
 
-public class LoginActivity extends BaseActivity {
-    private ApiService mApiService;
+public class LoginActivity extends BaseActivity implements LoginView{
     @BindView(R.id.edt_input_acc)
     EditText edtInputAcc;
     @BindView(R.id.edt_input_pass)
@@ -34,6 +33,10 @@ public class LoginActivity extends BaseActivity {
     Button btnRegister;
     @BindView(R.id.btn_quit)
     Button btnQuit;
+    private LoginPresenter mLoginPresenter;
+    private String accName;
+    private String accPass;
+
 
     @Override
     protected int getContentLayoutID() {
@@ -41,34 +44,12 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-
-
-    private void login() {
-        mApiService= ApiUtils.getIapiService();
-        String spreadsheetId = "1668tcfK7dGLm0QjVzLxhvrkgd4v7KD2lEKLF5ACF9Eg";
-        String range = "acount!A2:E";//abcd là tên sheet+ phạm vi
-        mApiService.getListUser(spreadsheetId,range).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccess, this::onFail);
-    }
-
-    private void onFail(Throwable throwable) {
-        Log.i("onFail: ",String.valueOf(throwable));
-    }
-
-    private void onSuccess(List<List<Object>> lists) {
-
-    }
-
     @Override
     protected void initData() {
-        login();
+        mLoginPresenter=new LoginPresenter(this);
     }
 
-    @Override
-    protected void initView() {
 
-    }
 
     @Override
     protected void injectDependence() {
@@ -79,13 +60,49 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                onStartActivity(SheetActivity.class);
+                login();
+
                 break;
             case R.id.btn_register:
                 onStartActivity(RegisActivity.class);
                 break;
             case R.id.btn_quit:
+                onStartActivity(SheetDemoActivity.class);
                 break;
         }
+    }
+
+    private void login() {
+        if (CheckInput.checkInPutLogin(edtInputAcc, edtInputPass, this)) {
+            accName = edtInputAcc.getText().toString().trim();
+            accPass  = edtInputPass.getText().toString().trim();
+            mLoginPresenter.onLoadListUser();
+
+        }
+    }
+
+    @Override
+    public void onLoadUsersSuccess(ArrayList<User> users) {
+        boolean isLoginSuccess=false;
+        for(User user:users){
+            if(user.getAcount().equals(accName)&user.getPass().equals(accPass)){
+                isLoginSuccess=true;
+            }
+            if(isLoginSuccess){
+                break;
+            }
+        }
+        if(isLoginSuccess){
+            onStartActivity(MainActivity.class);
+            finish();
+        }else {
+            Toast.makeText(this, Constants.LOGIN_FAIL,Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onRequestFail(String s) {
+
     }
 }

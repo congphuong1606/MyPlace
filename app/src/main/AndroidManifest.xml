@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.sheets.SheetActivity"></activity>
+        <activity android:name=".ui.sheets.SheetDemoActivity"></activity>
     </application>
 
 </manifest>
