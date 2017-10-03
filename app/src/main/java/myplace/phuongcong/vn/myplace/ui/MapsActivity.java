@@ -73,6 +73,12 @@ public class MapsActivity extends FragmentActivity implements
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+        mMap.setOnMyLocationChangeListener(new );
+
+
+
+
+
         mMap.getUiSettings().setMapToolbarEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.getUiSettings().setIndoorLevelPickerEnabled(true);

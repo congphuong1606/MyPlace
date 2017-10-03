@@ -1,5 +1,6 @@
 package myplace.phuongcong.vn.myplace.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
@@ -12,7 +13,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import myplace.phuongcong.vn.myplace.R;
 import myplace.phuongcong.vn.myplace.common.Constants;
-import myplace.phuongcong.vn.myplace.ui.MainActivity;
+import myplace.phuongcong.vn.myplace.ui.MapsActivity;
 import myplace.phuongcong.vn.myplace.ui.base.BaseActivity;
 import myplace.phuongcong.vn.myplace.ui.register.RegisActivity;
 import myplace.phuongcong.vn.myplace.ui.sheets.SheetDemoActivity;
@@ -51,6 +52,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
           edtInputPass.setText(intent.getStringExtra("pass"));
         }
         mLoginPresenter = new LoginPresenter(this);
+        editor = getSharedPreferences(Constants.SPF_NAME, Context.MODE_PRIVATE).edit();
     }
 
 
@@ -86,13 +88,14 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void onSiginSuccess() {
+
         if(rempasswordcheckbox.isChecked()){
               editor.putString("name",accName)
                     .putString("pass",accPass).commit();
         }else {
             editor.clear();
         }
-        onStartActivity(MainActivity.class);
+        onStartActivity(MapsActivity.class);
         finish();
     }
 

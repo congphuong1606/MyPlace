@@ -20,11 +20,10 @@ public class RegisPresenter {
     }
 
     public void creatUser(String accName, String accPass, String accNumber) {
-        mApiService.creatUser("insert",accName,accPass,"",accNumber).subscribeOn(Schedulers.io())
+        mApiService.creatUser("insert-user",accName,accPass,"",accNumber).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccess, this::onFail);
     }
-
     private void onSuccess(ResponseBody responseBody) {
         mRegisView.onSiginSuccess();
 
