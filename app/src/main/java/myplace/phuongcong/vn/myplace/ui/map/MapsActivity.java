@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,22 +66,33 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         ButterKnife.bind(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
         mapPresenter = new MapPresenter(this);
-        mapFragment.getMapAsync(this);
         mapPresenter.getListLocation("0965100635");
+
+    }
+
+    private void onclick() {
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                Toast.makeText(MapsActivity.this,
+                        latLng.latitude + ", " + latLng.longitude,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // mMap.setOnMyLocationChangeListener(this);
+        onclick();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -175,8 +187,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 if (grantResults.length > 0
@@ -220,18 +231,24 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
         List<Address> addressList = null;
 
         if (seachText != null || !seachText.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             try {
                 addressList = geocoder.getFromLocationName(seachText, 1);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-            buildDialog(R.style.DialogTheme, address,latLng);
+
+            if(addressList.size()>0){
+                Address address = addressList.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                buildDialog(R.style.DialogTheme, address,latLng);
+            }
+            else Toast.makeText(
+                    this,"Không tìm thấy vị trí tìm kiếm",Toast.LENGTH_LONG).show();
+
 
         }
 
