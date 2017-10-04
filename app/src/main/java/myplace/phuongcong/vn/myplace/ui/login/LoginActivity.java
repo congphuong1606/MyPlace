@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import myplace.phuongcong.vn.myplace.R;
 import myplace.phuongcong.vn.myplace.common.Constants;
-import myplace.phuongcong.vn.myplace.ui.MapsActivity;
+import myplace.phuongcong.vn.myplace.ui.map.MapsActivity;
 import myplace.phuongcong.vn.myplace.ui.base.BaseActivity;
 import myplace.phuongcong.vn.myplace.ui.register.RegisActivity;
 import myplace.phuongcong.vn.myplace.ui.sheets.SheetDemoActivity;
